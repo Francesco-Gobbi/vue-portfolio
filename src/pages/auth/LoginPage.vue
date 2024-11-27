@@ -3,10 +3,15 @@ import { reactive, ref, watch } from "vue";
 import { useQuasar } from "quasar";
 import { useI18n } from "vue-i18n";
 import { useAuthStore } from "stores/auth";
+import {useRouter} from "vue-router";
+
+import { useVuelidate } from '@vuelidate/core'
+import { email, helpers, minLength, required } from '@vuelidate/validators'
 
 const authStore = useAuthStore();
 const { t } = useI18n();
 const $q = useQuasar();
+const router = useRouter();
 
 const state = reactive({
   email: "",
@@ -63,7 +68,15 @@ const submit = () => {
     return;
   }
 
-  $q.notify({ icon: "done", color: "positive", message: t("success") });
+  if(!authStore.isAuthenticated){
+    authStore.setToken("012345")
+    authStore.createUser({name:"Cane",url:"https://localhost"})
+    console.log(authStore.isAuthenticated);
+  }
+  console.log(authStore.isAuthenticated);
+  console.log('auth success')
+  $q.notify({icon: "success",position:'center',message:t('loginSuccess'),color:"green",timeout:500})
+  router.push({name: 'home'})
 };
 
 const switchVisibility = () => {

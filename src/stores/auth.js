@@ -11,15 +11,29 @@ export const useAuthStore = defineStore('auth', {
       name:"",
       urlImage:""
     },
+    defaultLanguage: "it-IT",
     token: "",
   }),
+  persist:true,
   getters:{
     isAuthenticated: (state) => {
-      return !!state.token
+      return state.token
+    },
+    getUser: (state) => {
+      return state.user
+    },
+    getDefaultLanguage: (state) => {
+      return state.defaultLanguage
     }
   },
   actions: {
+    setLanguage: (state, language) => {
+      state.defaultLanguage = language
+    },
     async createUser(data) {
+      this.user = data
+      return
+
       try{
         const user =await axios(process.env.API_URL + '/auth/create', {data});
         if(user.status == 200){

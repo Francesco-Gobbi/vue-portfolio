@@ -14,13 +14,11 @@
         <q-toolbar-title>
           Quasar App
         </q-toolbar-title>
-
-        <div v-if="isAuthenticate">
-          Ciao {{userStore.user.name}}
-        </div>
-        <div v-else @click="goTo('login')">
-          Effettua il login
-        </div>
+        <LanguageSelection />
+        <q-avatar>
+          <img :src="userStore.getUser.url || ''">
+        </q-avatar>
+        <q-btn flat round dense icon="logout" @click="logout" />
       </q-toolbar>
     </q-header>
 
@@ -54,15 +52,24 @@ import { ref, computed} from 'vue'
 import { useRouter } from 'vue-router'
 import EssentialLink from 'components/EssentialLink.vue'
 import {useAuthStore} from "stores/auth";
+import {useQuasar} from "quasar";
+import {useI18n} from "vue-i18n";
+import LanguageSelection from "components/LanguageSelection.vue";
 
 const userStore = useAuthStore()
 const isAuthenticate = computed(()=>userStore.isAuthenticated)
+const $q = useQuasar()
+const { t } = useI18n();
 
 const router = useRouter()
+const logout = () => {
+  userStore.logout()
+  $q.notify({icon: "success",position:'center',message:t('logoutSuccess'),timeout:500})
+  goTo('login')
+}
 const goTo = (routeName) => {
   router.push({ name: routeName })
 }
-console.log("Main page");
 
 const essentialLinks = [
   {

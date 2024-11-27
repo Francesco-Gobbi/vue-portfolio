@@ -12,5 +12,8 @@ export default {
   shortPassword: 'Password troppo corta',
   formNegative: 'I dati inseriti nella form non sono conformi alle regole',
   requiredField: 'Campo obbligatorio',
-  confirmPassword: 'Conferma password'
+  confirmPassword: 'Conferma password',
+  logoutSuccess: 'Logout effettuato',
+  loginSuccess:'Login effettuato con successo',
+  messageTest: 'Ciao come va '
 }
