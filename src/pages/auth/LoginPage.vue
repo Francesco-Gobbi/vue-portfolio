@@ -86,8 +86,8 @@ const submit = () => {
   }
 
   if(!authStore.isAuthenticated){
-    authStore.setToken("012345")
-    authStore.createUser({name:"Cane",url:"https://localhost"})
+    authStore.setToken(Math.random()*10000)
+    authStore.createUser({name:state.email.toString().split("@")[0] ,url:"https://cdn-icons-png.flaticon.com/512/1077/1077114.png"})
     console.log(authStore.isAuthenticated);
   }
   console.log(authStore.isAuthenticated);
