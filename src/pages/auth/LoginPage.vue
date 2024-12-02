@@ -8,10 +8,27 @@ import {useRouter} from "vue-router";
 import { useVuelidate } from '@vuelidate/core'
 import { email, helpers, minLength, required } from '@vuelidate/validators'
 
-const authStore = useAuthStore();
 const { t } = useI18n();
+const authStore = useAuthStore();
 const $q = useQuasar();
 const router = useRouter();
+
+const user = reactive({
+  email: undefined,
+  password: undefined
+})
+
+const userFormRules = {
+  email: {
+    requiredField: helpers.withMessage(t('validation.required'), required),
+    emailField: helpers.withMessage(t('validation.invalidEmail'), email)
+  },
+  password: {
+    passwordField: helpers.withMessage(t('validation.required'), required)
+  }
+}
+
+const v$ = useVuelidate(userFormRules, user, { $autoDirty: false })
 
 const state = reactive({
   email: "",
@@ -115,6 +132,7 @@ const switchVisibility = () => {
                   >
                     <q-tab-panel name="login">
                       <q-form class="q-px-sm q-pt-xl">
+
                         <q-input
                           clearable
                           v-model="state.email"
